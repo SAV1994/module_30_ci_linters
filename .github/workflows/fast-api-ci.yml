@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: pip install -r module_30_ci_linters/requirements.txt
+      - run: pip install -r ${{ github.workspace }}/requirements.txt
 
   unittest:
     runs-on: ubuntu-latest
@@ -17,22 +17,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - run: mypy module_30_ci_linters/
+      - run: mypy ${{ github.workspace }}/
 
   black:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - run: black --diff --check module_30_ci_linters/
+      - run: black --diff --check ${{ github.workspace }}/
 
   isort:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - run: isort --check-only module_30_ci_linters/
+      - run: isort --check-only ${{ github.workspace }}/
 
   flake8:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - run: flake8 module_30_ci_linters/
+      - run: flake8 ${{ github.workspace }}/

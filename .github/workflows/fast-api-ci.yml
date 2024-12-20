@@ -7,37 +7,34 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
       - run: pip install -r ${{ github.workspace }}/requirements.txt
 
   unittest:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - run: python -m unittest
+      - run: python -m unittest ${{ github.workspace }}/tests
 
   mypy:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - run: mypy ${{ github.workspace }}/
+      - run: python -m mypy ${{ github.workspace }}/
 
   black:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - run: black --diff --check ${{ github.workspace }}/
+      - run: python -m black --diff --check ${{ github.workspace }}/
 
   isort:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - run: isort --check-only ${{ github.workspace }}/
+      - run: python -m isort --check-only ${{ github.workspace }}/
 
   flake8:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - run: flake8 ${{ github.workspace }}/
+      - run: python -m flake8 ${{ github.workspace }}/

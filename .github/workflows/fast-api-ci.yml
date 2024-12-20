@@ -1,0 +1,38 @@
+name: ci-linters
+run-name: run linters
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: python:3.10
+    steps:
+      - run: pip install -r requirements.txt
+
+  unittest:
+    runs-on: python:3.10
+    needs: [build]
+    steps:
+      - run: python -m unittest
+
+  mypy:
+    runs-on: python:3.10
+    needs: [build]
+    steps:
+      - run: mypy ./
+
+  black:
+    runs-on: python:3.10
+    needs: [build]
+    steps:
+      - run: black --diff --check ./
+
+  isort:
+    runs-on: python:3.10
+    needs: [build]
+    steps:
+      - run: isort --check-only ./
+
+  flake8:
+    runs-on: python:3.10
+    needs: [build]
+    steps:
+      - run: flake8 ./

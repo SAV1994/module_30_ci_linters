@@ -2,9 +2,10 @@ import asyncio
 import json
 import unittest
 
+from fastapi.testclient import TestClient
+
 import models
 from database import Base, async_session, engine
-from fastapi.testclient import TestClient
 from main import app
 
 
@@ -112,9 +113,10 @@ class TestClientTestCase(unittest.TestCase):
             {
                 'detail': [
                     {
+                        'input': 'Время готовки',
                         'loc': ['body', 'cooking_time'],
-                        'msg': 'value is not a valid integer',
-                        'type': 'type_error.integer',
+                        'msg': 'Input should be a valid integer, unable to parse string ' 'as an integer',
+                        'type': 'int_parsing',
                     }
                 ]
             },
